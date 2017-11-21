@@ -1,3 +1,4 @@
+drop database if exists "odk_db";
 create database "odk_db";
 create user "odk_user" with unencrypted password 'password';
 grant all privileges on database "odk_db" to "odk_user";

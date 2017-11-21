@@ -7,6 +7,8 @@ while ! nc -z postgres 5432; do echo "Trying db"; sleep 3; done
 psql -h postgres -U postgres -a -f /create_db_and_user.sql
 
 # Set up ODK aggregate only if we need to.
+
+
 if [ ! -f /finished-setup ]; then
   echo "---- Running ODK Aggregate Setup ---"
 
@@ -55,6 +57,9 @@ if [ ! -f /finished-setup ]; then
   sed -i -E "s|^(jdbc.schema=).*|\1$DB_SCHEMA|gm" jdbc.properties
   sed -i -E "s|^(jdbc.username=).*|\1$DB_USER|gm" jdbc.properties
   sed -i -E "s|^(jdbc.password=).*|\1$DB_PASSWORD|gm" jdbc.properties
+
+  echo "---- Modifying Tomcat server.xml.template ----"
+  envsubst < /usr/local/tomcat/conf/server.xml.template > /usr/local/tomcat/conf/server.xml
 
   echo "---- Rebuilding ODKAggregate-settings.jar ----"
   zip -g WEB-INF/lib/ODKAggregate-settings.jar jdbc.properties security.properties > /dev/null 2>&1

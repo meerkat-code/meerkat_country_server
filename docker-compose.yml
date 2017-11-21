@@ -4,9 +4,6 @@ services:
     build: odk
     container_name: odk
     tty: true
-    ports:
-      - "81:8080"
-      - "443:8443"
     depends_on:
       - postgres
     links:
@@ -55,6 +52,24 @@ services:
     image: rabbitmq
     hostname: nest_rabbit
 
+  tunnel:
+     image: vsouza/sqs-local
+     hostname: tunnel
+     ports:
+      - 9324:9324
 
+  nginx:
+    build: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - "SSL_CERTIFICATE=/etc/nginx/self-signed-nginx.crt"
+      - "SSL_CERTIFICATE_KEY=/etc/nginx/self-signed-nginx.key"
+    depends_on:
+      - odk
+      - nest
+    hostname: nginx
+    command: /bin/run.sh
 volumes:
   odkaggregate:
