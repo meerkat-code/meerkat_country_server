@@ -1,0 +1,3 @@
+#!/bin/bash
+cd /var/www/meerkat_nest
+uwsgi --ini /var/www/uwsgi/app.ini --py-autoreload 1

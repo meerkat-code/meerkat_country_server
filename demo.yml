@@ -1,0 +1,14 @@
+version: '2'
+services:
+  odk:
+    environment:
+      - "ODK_HOSTNAME=democountryserver.emro.info"
+  nest:
+    environment:
+      - "CONFIG_OBJECT=config.Production"
+  nginx:
+    volumes:
+      - "/etc/letsencrypt/:/etc/letsencrypt"
+    environment:
+      - "SSL_CERTIFICATE:/etc/letsencrypt/live/democountryserver.emro.info/fullchain.pem"
+      - "SSL_CERTIFICATE_KEY:/etc/letsencrypt/live/democountryserver.emro.info/privkey.pem"

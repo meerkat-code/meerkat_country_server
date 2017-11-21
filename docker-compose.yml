@@ -1,0 +1,60 @@
+version: '2'
+services:
+  odk:
+    build: odk
+    container_name: odk
+    tty: true
+    ports:
+      - "81:8080"
+      - "443:8443"
+    depends_on:
+      - postgres
+    links:
+      - postgres
+    environment:
+      - ODK_HOSTNAME=localhost
+      - ODK_ADMIN_USERNAME=test
+      - ODK_PORT=80
+      - ODK_PORT_SECURE=443
+      - DB_USER=odk_user
+      - DB_DATABASE=odk_db
+      - DB_SCHEMA=odk_db
+      - DB_PASSWORD=password
+      - DB_HOSTNAME=postgres
+      - PGPASSWORD=password
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    ports:
+      - "5434:5432"
+    volumes:
+      - odkaggregate:/var/lib/postgresql/
+    environment:
+      - POSTGRES_PASSWORD=password
+
+  nest:
+    build: nest
+    ports:
+      - "5000:5000"
+    volumes:
+      - "../meerkat_nest/:/var/www/meerkat_nest"
+      - "~/.aws/credentials:/root/.aws/credentials"
+    environment:
+      - "CONFIG_OBJECT=config.Development"
+      - "MEERKAT_NEST_DB_URL=postgresql+psycopg2://postgres:postgres@nest_db/meerkat_nest_db"
+    hostname: nest
+
+  nest_db:
+    image: mdillon/postgis
+    hostname: nest_db
+    ports:
+      - "5433:5432"
+
+  nest_rabbit:
+    image: rabbitmq
+    hostname: nest_rabbit
+
+
+volumes:
+  odkaggregate:
