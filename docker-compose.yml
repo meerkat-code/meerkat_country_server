@@ -30,7 +30,7 @@ services:
     volumes:
       - database_volume:/var/lib/postgresql/
       - ./db/postgresql.conf:/etc/postgresql.conf
-      - /etc/wal-e.d/env:/etc/wal-e.d/env
+      - /etc/wal-e.d/env:/etc/wal-e.d
     environment:
       - POSTGRES_PASSWORD=password
     command: postgres -c config_file=/etc/postgresql.conf
