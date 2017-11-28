@@ -5,9 +5,9 @@ services:
     container_name: odk
     tty: true
     depends_on:
-      - postgres
+      - db
     links:
-      - postgres
+      - db
     environment:
       - ODK_HOSTNAME=localhost
       - ODK_ADMIN_USERNAME=test
@@ -17,18 +17,20 @@ services:
       - DB_DATABASE=odk_db
       - DB_SCHEMA=odk_db
       - DB_PASSWORD=password
-      - DB_HOSTNAME=postgres
+      - DB_HOSTNAME=db
       - PGPASSWORD=password
 
-  postgres:
+  db:
     image: postgres:latest
-    container_name: postgres
+    container_name: db
     ports:
       - "5432:5432"
     volumes:
       - database_volume:/var/lib/postgresql/
+      - ./db/postgres.conf:/etc/postgres.conf
     environment:
       - POSTGRES_PASSWORD=password
+    command: postgres -c config_file=/etc/postgresql.conf
 
   nest:
     build: nest
@@ -39,7 +41,7 @@ services:
       - "~/.aws/credentials:/root/.aws/credentials"
     environment:
       - "CONFIG_OBJECT=config.Development"
-      - "MEERKAT_NEST_DB_URL=postgresql+psycopg2://postgres:password@postgres/meerkat_nest_db"
+      - "MEERKAT_NEST_DB_URL=postgresql+psycopg2://postgres:password@db/meerkat_nest_db"
     hostname: nest
 
   nest_rabbit:
