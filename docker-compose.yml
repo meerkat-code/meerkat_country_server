@@ -21,13 +21,16 @@ services:
       - PGPASSWORD=password
 
   db:
-    image: postgres:latest
+    build:
+      context: .
+      dockerfile: db/Dockerfile
     container_name: db
     ports:
       - "5432:5432"
     volumes:
       - database_volume:/var/lib/postgresql/
-      - ./db/postgres.conf:/etc/postgres.conf
+      - ./db/postgresql.conf:/etc/postgresql.conf
+      - /etc/wal-e.d/env:/etc/wal-e.d/env
     environment:
       - POSTGRES_PASSWORD=password
     command: postgres -c config_file=/etc/postgresql.conf
