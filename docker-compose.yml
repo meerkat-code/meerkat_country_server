@@ -24,9 +24,9 @@ services:
     image: postgres:latest
     container_name: postgres
     ports:
-      - "5434:5432"
+      - "5432:5432"
     volumes:
-      - odkaggregate:/var/lib/postgresql/
+      - database_volume:/var/lib/postgresql/
     environment:
       - POSTGRES_PASSWORD=password
 
@@ -39,14 +39,8 @@ services:
       - "~/.aws/credentials:/root/.aws/credentials"
     environment:
       - "CONFIG_OBJECT=config.Development"
-      - "MEERKAT_NEST_DB_URL=postgresql+psycopg2://postgres:postgres@nest_db/meerkat_nest_db"
+      - "MEERKAT_NEST_DB_URL=postgresql+psycopg2://postgres:password@postgres/meerkat_nest_db"
     hostname: nest
-
-  nest_db:
-    image: mdillon/postgis
-    hostname: nest_db
-    ports:
-      - "5433:5432"
 
   nest_rabbit:
     image: rabbitmq
@@ -72,4 +66,4 @@ services:
     hostname: nginx
     command: /bin/run.sh
 volumes:
-  odkaggregate:
+  database_volume:
