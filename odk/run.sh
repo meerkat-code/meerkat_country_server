@@ -3,8 +3,8 @@
 set -eu
 
 # Wait for db to set up before creating the necessary db particulars.
-while ! nc -z postgres 5432; do echo "Trying db"; sleep 3; done
-psql -h postgres -U postgres -a -f /create_db_and_user.sql
+while ! nc -z ${DB_HOSTNAME} 5432; do echo "Trying db"; sleep 3; done
+psql -h ${DB_HOSTNAME} -U postgres -a -f /create_db_and_user.sql
 
 # Set up ODK aggregate only if we need to.
 
