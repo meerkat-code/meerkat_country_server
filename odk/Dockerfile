@@ -12,7 +12,7 @@ RUN apt-get update \
 RUN curl -OL https://jdbc.postgresql.org/download/postgresql-${DBCONNECTOR_VERSION}.jar \
     && mv postgresql-${DBCONNECTOR_VERSION}.jar ${CATALINA_HOME}/lib/
 
-ADD create_db_and_user.sql /create_db_and_user.sql
+ADD create_db_user.sql /create_db_user.sql
 RUN curl -L ${AGGREGATE_URL}/ODKAggregate.war  --output /ODKAggregate.war
 
 #Sets defaults env vars

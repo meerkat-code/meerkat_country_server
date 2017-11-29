@@ -4,9 +4,17 @@ set -eu
 
 # Wait for db to set up before creating the necessary db particulars.
 while ! nc -z ${DB_HOSTNAME} 5432; do echo "Trying db"; sleep 3; done
-psql -h ${DB_HOSTNAME} -U postgres -a -f /create_db_and_user.sql
 
-# Set up ODK aggregate only if we need to.
+# Look for existing database
+VAR_DB_CHECK=$(psql -U postgres -h ${DB_HOSTNAME} -lqt | cut -d \| -f 1 | grep -w odk_db)
+
+if [ $VAR_DB_CHECK = "${DB_DATABASE}" ]; then
+    echo "database ${DB_DATABASE} already exists";
+else
+    psql -h ${DB_HOSTNAME} -U postgres -a -c "CREATE DATABASE ${DB_DATABASE};"
+fi
+
+psql -h ${DB_HOSTNAME} -U postgres -a -f /create_db_user.sql
 
 
 if [ ! -f /finished-setup ]; then
