@@ -25,8 +25,6 @@ services:
       context: .
       dockerfile: db/Dockerfile
     container_name: db
-    ports:
-      - "5432:5432"
     volumes:
       - database_volume:/var/lib/postgresql/
       - ./db/postgresql.conf:/etc/postgresql.conf
@@ -42,8 +40,6 @@ services:
 
   nest:
     build: nest
-    ports:
-      - "5000:5000"
     volumes:
       - "../meerkat_nest/:/var/www/meerkat_nest"
       - "~/.aws/credentials:/root/.aws/credentials"

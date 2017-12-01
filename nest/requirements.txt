@@ -24,3 +24,5 @@ blinker==1.4
 PyJWT==1.4.1
 raven[flask]==6.0.0
 passlib==1.6.5
+xmljson
+lxml
