@@ -42,7 +42,7 @@ services:
     build: nest
     volumes:
       - "../meerkat_nest/:/var/www/meerkat_nest"
-      - "~/.aws/credentials:/root/.aws/credentials"
+      - "~/.aws/:/root/.aws"
     environment:
       - "CONFIG_OBJECT=config.Development"
       - "MEERKAT_NEST_DB_URL=postgresql+psycopg2://postgres:password@db/meerkat_nest_db"
