@@ -13,8 +13,10 @@ It contains the following projects:
 Set up environment variable `COUNTRY` for the country deployment
 
 Clone the source code for Meerkat nest and the country configuration repository in the same root folder as this repository
-`git clone git@github.com:meerkat-code/meerkat_nest.git`
-`git clone git@github.com:meerkat-code/meerkat_${COUNTRY}.git`
+```bash
+git clone git@github.com:meerkat-code/meerkat_nest.git
+git clone git@github.com:meerkat-code/meerkat_${COUNTRY}.git
+```
 
 ### Configuring ODK Aggregate
 ODK Aggregate documentation can be found [here](http://docs.opendatakit.org/aggregate-guide/).
