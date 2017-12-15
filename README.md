@@ -23,7 +23,7 @@ ODK Aggregate documentation can be found [here](http://docs.opendatakit.org/aggr
 Use the ODK Aggregate UI to change admin credentials from `test:aggregate` and set up anonymous data sending.
 
 #### Uploading forms into ODK Aggregate
-Use either the graphical interface in ODK Aggregate or the API to upload forms to Aggregate
+Use either the graphical interface in ODK Aggregate or the API to upload forms to Aggregate.
 
 #### Configuring submission publishing
 Using Form Management tab in ODK Aggregate, set up submission publishing with the following parameters:
@@ -33,6 +33,7 @@ Using Form Management tab in ODK Aggregate, set up submission publishing with th
 * Include Media as: Links(URLs) to Media
 
 ### Configuring Nginx and SSL certificates
+If necessary, install and use [Certbot](https://certbot.eff.org/) to create SSL certificates for your domain. Make sure the certificates are mapped into Nginx Docker container correctly by setting the environment variables in country-specific docker-compose configuration files in the country configurations repo.
 
 ### Configuring backups
 
@@ -103,11 +104,20 @@ chown -R 999:999 /etc/wal-e.d
 ```
 
 ### Docker setup
+
+#### Installing Docker and Docker-Compose
+Instructions for installing Docker can be found [here](https://docs.docker.com/engine/installation/) and instructions for Docker-Compose [here](https://docs.docker.com/compose/install/).
+
 #### Building Docker images
 Build the required Docker images by running
-`docker-compose build`
+`docker-compose build` in this folder.
 
-#### Starting docker-compose
+## Running the services
+
+### Making sure host system Nginx isn't running
+Run `sudo service stop nginx` in the host system to stop it in case it's running.
+
+### Starting docker-compose
 To start services you can run:
 ```bash
 docker-compose -f docker-compose.yml -f demo.yml up -d
@@ -117,7 +127,7 @@ Manual configuration for initial backup is required with:
 docker exec -it db /manual_setup.sh
 ```
 
-#### Logs
+### Logs
 Logs for continous WAL backup can be seen id db container logs.
 Weekly base backups will be logged inside the container under `/cron.log`
 
