@@ -75,6 +75,11 @@ Create the following configuration in directory `/etc/wal-e.d/`:
 └── gpg_pub.key
 
 ```
+With the following ownership and permissions:
+```bash
+# chown -R 999:docker /etc/wal-e.d
+# chmod -R 660 /etc/wal-e.d
+```
 Files inside `/etc/wal-e.d/env` will be used by `envdir` for `wal-e`. Example content:
 ```bash
 root@tsabala:/etc/wal-e.d/env# tail -vn +1 *
