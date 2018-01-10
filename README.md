@@ -37,6 +37,10 @@ Using Form Management tab in ODK Aggregate, set up submission publishing with th
 ### Configuring Nginx and SSL certificates
 If necessary, install and use [Certbot](https://certbot.eff.org/) to create SSL certificates for your domain. Make sure the certificates are mapped into Nginx Docker container correctly by setting the environment variables in country-specific docker-compose configuration files in the country configurations repo.
 
+### Configuring hash salt for Nest
+Meerkat Nest uses salted hashing to anonymise the data. To make this secure, a salt file must be added. The location of this
+salt file is defined in the implementation specific docker-compose file. The sal file can be any file containing UTF-8 text.
+
 ### Configuring backups
 
 #### Setting up S3
