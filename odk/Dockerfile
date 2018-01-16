@@ -13,7 +13,7 @@ RUN curl -OL https://jdbc.postgresql.org/download/postgresql-${DBCONNECTOR_VERSI
     && mv postgresql-${DBCONNECTOR_VERSION}.jar ${CATALINA_HOME}/lib/
 
 ADD create_db_user.sql /create_db_user.sql
-RUN curl -L ${AGGREGATE_URL}/ODKAggregate.war  --output /ODKAggregate.war
+RUN curl -L ${AGGREGATE_URL}/ODKAggregate_meerkat_v1.war  --output /ODKAggregate.war
 
 #Sets defaults env vars
 ENV DB_HOSTNAME='localhost' \
