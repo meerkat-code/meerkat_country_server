@@ -26,3 +26,4 @@ raven[flask]==6.0.0
 passlib==1.6.5
 xmljson
 lxml
+redis
