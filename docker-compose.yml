@@ -52,6 +52,10 @@ services:
     image: rabbitmq
     hostname: nest_rabbit
 
+  redis:
+    image: redis:3.2.11
+    hostname: redis
+
   tunnel:
      image: vsouza/sqs-local
      hostname: tunnel
