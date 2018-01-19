@@ -66,7 +66,7 @@ You need to create a bucket in S3 with reasonable expiration time and the follow
   ]
 }
 ```
-
+#### Configure wal-e
 Create the following configuration in directory `/etc/wal-e.d/`:
 ```bash
 /etc/wal-e.d/
@@ -83,6 +83,7 @@ With the following ownership and permissions:
 ```bash
 # chown -R 999:docker /etc/wal-e.d
 # chmod -R 660 /etc/wal-e.d
+# chmod 770 /etc/wal-e.d/env
 ```
 Files inside `/etc/wal-e.d/env` will be used by `envdir` for `wal-e`. Example content:
 ```bash
@@ -107,12 +108,6 @@ More information in wal-e doc: https://github.com/wal-e/wal-e
 #### Encryption
 The `gpg_pub.key` is the public gpg key to encrypt data before they are send to S3.
 `WALE_GPG_KEY_ID` should point to this key id.
-
-#### Make file accesible in container
-Set ownership to `999:999` (postgres user id in the db container):
-```bash
-chown -R 999:999 /etc/wal-e.d
-```
 
 ### Docker setup
 
