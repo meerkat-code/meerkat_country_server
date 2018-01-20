@@ -52,6 +52,16 @@ services:
     image: rabbitmq
     hostname: nest_rabbit
 
+  drill:
+    build: drill
+    volumes:
+      - "../meerkat_drill/:/var/www/meerkat_drill"
+      - "~/.aws/:/root/.aws"
+
+  redis:
+    image: redis:3.2.11
+    hostname: redis
+
   tunnel:
      image: vsouza/sqs-local
      hostname: tunnel
