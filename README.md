@@ -103,6 +103,31 @@ SeCr#tAW5K3yMeeeeeerkat
 ==> WALE_S3_PREFIX <==
 s3://meerkat-pgbackup
 ```
+
+##### Local storage of backups for Jordan and RMS
+I've copied the old config to `env.aws_backup`
+```bash
+ops@bhs:/etc/wal-e.d$ ls
+env  env.aws_backup  gpg_pub.key
+```
+The new configuration:
+```bash
+root@bhs:/etc/wal-e.d/env# tail -vn +1 *
+==> WALE_FILE_PREFIX <==
+file://localhost/backups/pg
+
+==> WALE_GPG_KEY_ID <==
+625C3EAEBFBCD66E
+```
+Together with updates in `nest/country.yml` files in corresponding country configs:
+```docker
+services:
+  db:
+    volumes:
+      - "/home/ops/pg_backups:/backups/pg"
+```
+results in storing weekly backups and continuous WAL files locally.
+
 More information in wal-e doc: https://github.com/wal-e/wal-e
 
 #### Encryption
