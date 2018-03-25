@@ -15,10 +15,11 @@ services:
       - ODK_PORT_SECURE=443
       - DB_USER=odk_user
       - DB_DATABASE=odk_db
-      - DB_SCHEMA=odk_db
+      - DB_SCHEMA=odk_prod
       - DB_PASSWORD=password
       - DB_HOSTNAME=db
       - PGPASSWORD=password
+      - CATALINA_OPTS=-Xms3g -Xmx6g -XX:MaxPermSize=512M
 
   db:
     build:
