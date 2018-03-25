@@ -19,7 +19,7 @@ services:
       - DB_PASSWORD=password
       - DB_HOSTNAME=db
       - PGPASSWORD=password
-
+    restart: always
   db:
     build:
       context: .
@@ -36,8 +36,10 @@ services:
       - ./db/manual_setup.sh:/manual_setup.sh
     environment:
       - POSTGRES_PASSWORD=password
+    ports:
+      - 5432:5432
     command: postgres -c config_file=/etc/postgresql.conf
-
+    restart: always
   nest:
     build: nest
     volumes:
@@ -47,26 +49,18 @@ services:
       - "CONFIG_OBJECT=config.Development"
       - "MEERKAT_NEST_DB_URL=postgresql+psycopg2://postgres:password@db/meerkat_nest_db"
     hostname: nest
-
-  nest_rabbit:
-    image: rabbitmq
-    hostname: nest_rabbit
-
+    restart: always
+    
   drill:
     build: drill
     volumes:
       - "../meerkat_drill/:/var/www/meerkat_drill"
       - "~/.aws/:/root/.aws"
-
+    restart: always
   redis:
     image: redis:3.2.11
     hostname: redis
-
-  tunnel:
-     image: vsouza/sqs-local
-     hostname: tunnel
-     ports:
-      - 9324:9324
+    restart: always
 
   nginx:
     build: nginx
@@ -81,5 +75,6 @@ services:
       - nest
     hostname: nginx
     command: /bin/run.sh
+    restart: always
 volumes:
   database_volume:
