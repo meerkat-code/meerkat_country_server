@@ -34,6 +34,8 @@ ENV DB_HOSTNAME='localhost' \
 COPY config/server.xml.template /usr/local/tomcat/conf/server.xml.template
 COPY config/self-signed-certs-tomcat/server.jks /server.jks
 
+COPY create_db_user.sql /create_db_user.sql
+
 #Copy the run script and allow executing it
 ADD run.sh /run.sh
 RUN chmod +x /run.sh
