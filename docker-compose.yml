@@ -1,3 +1,4 @@
+
 version: '2'
 services:
   odk:
@@ -5,9 +6,9 @@ services:
     container_name: odk
     tty: true
     depends_on:
-      - nest_db
+      - db
     links:
-      - nest_db
+      - db
     environment:
       - ODK_HOSTNAME=localhost
       - ODK_ADMIN_USERNAME=test
@@ -15,25 +16,24 @@ services:
       - ODK_PORT_SECURE=443
       - DB_USER=odk_user
       - DB_DATABASE=odk_db
-      - DB_SCHEMA=odk_db
+      - DB_SCHEMA=odk_prod
       - DB_PASSWORD=password
-      - DB_HOSTNAME=nest_db
+      - DB_HOSTNAME=db
       - PGPASSWORD=password
+      - CATALINA_OPTS=-Xms3g -Xmx6g -XX:MaxPermSize=512M
     restart: always
   db:
     build:
       context: .
       dockerfile: db/Dockerfile
     hostname:
-      nest_db
+      db
     volumes:
       - database_volume:/var/lib/postgresql/
       - ./db/postgresql.conf:/etc/postgresql.conf
       - ./db/init_odk_database.sql:/docker-entrypoint-initdb.d/init_odk_database.sql
     environment:
       - POSTGRES_PASSWORD=password
-    ports:
-      - 5432:5432
     command: postgres -c config_file=/etc/postgresql.conf
     restart: always
   nest:
@@ -43,7 +43,7 @@ services:
       - "~/.aws/:/root/.aws"
     environment:
       - "CONFIG_OBJECT=config.Development"
-      - "MEERKAT_NEST_DB_URL=postgresql+psycopg2://postgres:password@nest_db/meerkat_nest_db"
+      - "MEERKAT_NEST_DB_URL=postgresql+psycopg2://postgres:password@db/meerkat_nest_db"
     hostname: nest
     restart: always
     
@@ -58,11 +58,14 @@ services:
     hostname: redis
     restart: always
 
-  nest_nginx:
+  nginx:
     build: nginx
     environment:
       - "SSL_CERTIFICATE=/etc/nginx/self-signed-nginx.crt"
       - "SSL_CERTIFICATE_KEY=/etc/nginx/self-signed-nginx.key"
+    ports:
+      - 80:80
+      - 443:443
     depends_on:
       - odk
       - nest
