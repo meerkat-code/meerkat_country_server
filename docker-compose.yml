@@ -32,7 +32,6 @@ services:
       - database_volume:/var/lib/postgresql/
       - ./db/postgresql.conf:/etc/postgresql.conf
       - ./db/init_odk_database.sql:/docker-entrypoint-initdb.d/init_odk_database.sql
-      #- ./db/configure_backup.sh:/docker-entrypoint-initdb.d/configure_backup.sh
     environment:
       - POSTGRES_PASSWORD=password
     command: postgres -c config_file=/etc/postgresql.conf
