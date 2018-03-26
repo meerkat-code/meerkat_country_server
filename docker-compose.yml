@@ -29,12 +29,7 @@ services:
     volumes:
       - database_volume:/var/lib/postgresql/
       - ./db/postgresql.conf:/etc/postgresql.conf
-      - /etc/wal-e.d/env/:/etc/wal-e.d/env/
-      - /etc/wal-e.d/gpg_pub.key:/etc/wal-e.d/gpg_pub.key
       - ./db/init_odk_database.sql:/docker-entrypoint-initdb.d/init_odk_database.sql
-      #- ./db/configure_backup.sh:/docker-entrypoint-initdb.d/configure_backup.sh
-      - ./db/trust_gpg.exp:/usr/bin/trust_gpg.exp
-      - ./db/manual_setup.sh:/manual_setup.sh
     environment:
       - POSTGRES_PASSWORD=password
     ports:
