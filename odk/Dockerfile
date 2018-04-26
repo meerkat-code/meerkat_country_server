@@ -19,7 +19,7 @@ RUN curl -L ${AGGREGATE_URL}/ODKAggregate_meerkat_v1.war  --output /ODKAggregate
 ENV DB_HOSTNAME='localhost' \
     DB_PORT='5432' \
     DB_DATABASE='odk_db' \
-    DB_SCHEMA='odk_db' \
+    DB_SCHEMA='odk_prod' \
     DB_USER='odk_user' \
     DB_PASSWORD='password' \
     ODK_PORT='80' \
@@ -33,6 +33,8 @@ ENV DB_HOSTNAME='localhost' \
 #Copy self-signed certs and server configs
 COPY config/server.xml.template /usr/local/tomcat/conf/server.xml.template
 COPY config/self-signed-certs-tomcat/server.jks /server.jks
+
+COPY create_db_user.sql /create_db_user.sql
 
 #Copy the run script and allow executing it
 ADD run.sh /run.sh

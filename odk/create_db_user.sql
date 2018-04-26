@@ -7,12 +7,12 @@ BEGIN
       FROM   pg_catalog.pg_user
       WHERE  usename = 'odk_user') THEN
 
-      CREATE ROLE "odk_user" WITH PASSWORD 'password';
+      CREATE ROLE "odk_user" WITH PASSWORD "password";
    END IF;
 END
 $body$;
 
-alter role 'odk_user' with login;
+alter role "odk_user" with login;
 grant all privileges on database "odk_db" to "odk_user";
 alter database "odk_db" owner to "odk_user";
 \c "odk_db";

@@ -25,7 +25,7 @@ ODK Aggregate documentation can be found [here](http://docs.opendatakit.org/aggr
 Use the ODK Aggregate UI to change admin credentials from `test:aggregate` and set up anonymous data sending.
 
 #### Uploading forms into ODK Aggregate
-Use either the graphical interface in ODK Aggregate or the API to upload forms to Aggregate.
+Use either the graphical interface in ODK Aggregate at <aggregate_root>/formUpload or the API to upload forms to Aggregate.
 
 #### Configuring submission publishing
 Using Form Management tab in ODK Aggregate, set up submission publishing with the following parameters:
@@ -38,8 +38,8 @@ Using Form Management tab in ODK Aggregate, set up submission publishing with th
 If necessary, install and use [Certbot](https://certbot.eff.org/) to create SSL certificates for your domain. Make sure the certificates are mapped into Nginx Docker container correctly by setting the environment variables in country-specific docker-compose configuration files in the country configurations repo.
 
 ### Configuring hash salt for Nest
-Meerkat Nest uses salted hashing to anonymise the data. To make this secure, a salt file must be added. The location of this
-salt file is defined in the implementation specific docker-compose file. The sal file can be any file containing UTF-8 text.
+Meerkat Nest uses salted hashing to anonymise the data. To make this secure, the hashed fields must be salted before hashing. Nest does this automatically but
+you can use a custom salt file by defining the SALT environmental variable in the Nest container.
 
 ### Configuring backups
 
