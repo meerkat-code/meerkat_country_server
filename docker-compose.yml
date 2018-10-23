@@ -5,10 +5,6 @@ services:
     build: odk
     container_name: odk
     tty: true
-    depends_on:
-      - db
-    links:
-      - db
     environment:
       - ODK_HOSTNAME=localhost
       - ODK_ADMIN_USERNAME=test
@@ -46,7 +42,7 @@ services:
       - "MEERKAT_NEST_DB_URL=postgresql+psycopg2://postgres:password@db/meerkat_nest_db"
     hostname: nest
     restart: always
-    
+
   drill:
     build: drill
     volumes:
