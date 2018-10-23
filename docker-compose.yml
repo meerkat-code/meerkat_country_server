@@ -18,20 +18,7 @@ services:
       - PGPASSWORD=password
       - CATALINA_OPTS=-Xms3g -Xmx6g -XX:MaxPermSize=512M
     restart: always
-  db:
-    build:
-      context: .
-      dockerfile: db/Dockerfile
-    hostname:
-      db
-    volumes:
-      - database_volume:/var/lib/postgresql/
-      - ./db/postgresql.conf:/etc/postgresql.conf
-      - ./db/init_odk_database.sql:/docker-entrypoint-initdb.d/init_odk_database.sql
-    environment:
-      - POSTGRES_PASSWORD=password
-    command: postgres -c config_file=/etc/postgresql.conf
-    restart: always
+
   nest:
     build: nest
     volumes:
