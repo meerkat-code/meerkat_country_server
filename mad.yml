@@ -2,13 +2,14 @@ version: '2'
 services:
   odk:
     environment:
-      - "ODK_HOSTNAME=https://madnest.aws.emro.info/"
+      - "ODK_HOSTNAME=${ODK_HOSTNAME}"
+      - "ODK_ADMIN_USERNAME=ops"
       - "DB_USER=odk_mad"
       - "DB_DATABASE=odk_mad"
       - "DB_SCHEMA=odk_mad"
-      - "DB_PASSWORD=password"
-      - "DB_HOSTNAME=meerkat-country-server-madagascar.cq6mmduyy7fo.eu-west-1.rds.amazonaws.com"
-      - "PGPASSWORD=password"
+      - "DB_PASSWORD=${DB_PASSWORD}"
+      - "DB_HOSTNAME=${DB_HOSTNAME}"
+      - "PGPASSWORD=${PGPASSWORD}"
   nest:
     environment:
       - "CONFIG_OBJECT=config.Production"
