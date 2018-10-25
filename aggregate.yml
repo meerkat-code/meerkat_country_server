@@ -15,6 +15,7 @@ services:
       - DB_PASSWORD
       - DB_HOSTNAME
       - PGPASSWORD
+      - ODK_INSTANCE_ID
     restart: always
   nginx:
     build: nginx
