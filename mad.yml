@@ -13,6 +13,9 @@ services:
       - "ODK_INSTANCE_ID=${ODK_INSTANCE_ID}"
 
   nest:
+    volumes:
+      - "../meerkat_mad/:/var/www/meerkat_mad"
+      - "../salt:/var/www/meerkat_mad/nest/salt"
     environment:
       - "CONFIG_OBJECT=config.Production"
       - "MEERKAT_NEST_DB_URL=${MEERKAT_NEST_DB_URL}"
