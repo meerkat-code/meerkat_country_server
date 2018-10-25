@@ -21,6 +21,10 @@ services:
       - "MEERKAT_NEST_DB_URL=${MEERKAT_NEST_DB_URL}"
       - "COUNTRY_CONFIG_DIR=/var/www/meerkat_mad/nest/"
       - "COUNTRY_CONFIG=mad_config.py"
+  drill:
+    environment:
+      - "COUNTRY_NAME=mad"
+      - "SQS_QUEUE_URL=https://sqs.eu-west-1.amazonaws.com/458315597956/nest-queue-mad"
   nginx:
     volumes:
       - "/etc/letsencrypt/:/etc/letsencrypt"
