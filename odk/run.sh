@@ -46,6 +46,8 @@ if [ ! -f /finished-setup ]; then
   echo "Updating security.server.secureChannelType"
   sed -i -E "s|^(security.server.secureChannelType=)([A-Z_]+)|\1$ODK_CHANNELTYPE|gm" security.properties
   sed -i -E "s|^(security.server.channelType=)([A-Z_]+)|\1$ODK_CHANNELTYPE|gm" security.properties
+  sed -i -E "s|^(security.server.realm.realmString=)([A-Z_a-z ]+)|\1$ODK_INSTANCE_ID|gm" security.properties
+
 
   echo "---- Modifying ODK Aggregate jdbc.properties ----"
   sed -i -E "s|^(jdbc.url=jdbc:postgresql://).+(\?autoDeserialize=true)|\1$DB_HOSTNAME:$DB_PORT/$DB_DATABASE\2|gm" jdbc.properties
