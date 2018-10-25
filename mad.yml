@@ -16,6 +16,8 @@ services:
     environment:
       - "CONFIG_OBJECT=config.Production"
       - "MEERKAT_NEST_DB_URL=${MEERKAT_NEST_DB_URL}"
+      - "COUNTRY_CONFIG_DIR=/var/www/meerkat_mad/nest/"
+      - "COUNTRY_CONFIG=mad_config.py"
   nginx:
     volumes:
       - "/etc/letsencrypt/:/etc/letsencrypt"
