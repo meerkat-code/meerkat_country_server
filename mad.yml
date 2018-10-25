@@ -13,6 +13,7 @@ services:
   nest:
     environment:
       - "CONFIG_OBJECT=config.Production"
+      - "MEERKAT_NEST_DB_URL=${MEERKAT_NEST_DB_URL}"
   nginx:
     volumes:
       - "/etc/letsencrypt/:/etc/letsencrypt"
