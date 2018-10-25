@@ -4,10 +4,6 @@ services:
     build: odk
     container_name: odk
     tty: true
-    depends_on:
-      - db
-    links:
-      - db
     environment:
       - ODK_HOSTNAME
       - ODK_ADMIN_USERNAME=ops
