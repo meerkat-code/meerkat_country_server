@@ -10,6 +10,8 @@ services:
       - "DB_PASSWORD=${DB_PASSWORD}"
       - "DB_HOSTNAME=${DB_HOSTNAME}"
       - "PGPASSWORD=${PGPASSWORD}"
+      - "ODK_INSTANCE_ID=${ODK_INSTANCE_ID}"
+
   nest:
     environment:
       - "CONFIG_OBJECT=config.Production"
