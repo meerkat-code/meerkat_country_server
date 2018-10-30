@@ -11,6 +11,8 @@ services:
       - "DB_HOSTNAME=${DB_HOSTNAME}"
       - "PGPASSWORD=${PGPASSWORD}"
       - "ODK_INSTANCE_ID=${ODK_INSTANCE_ID}"
+      - "CATALINA_OPTS=-Xms2g -Xmx3.5g -XX:MaxPermSize=512M"
+
 
   nest:
     volumes:
