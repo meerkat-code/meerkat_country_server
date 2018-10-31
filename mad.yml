@@ -31,5 +31,5 @@ services:
     volumes:
       - "/etc/letsencrypt/:/etc/letsencrypt"
     environment:
-      - "SSL_CERTIFICATE=/etc/letsencrypt/live/madnest.aws.emro.info/fullchain.pem"
-      - "SSL_CERTIFICATE_KEY=/etc/letsencrypt/live/madnest.aws.emro.info/privkey.pem"
+      - "SSL_CERTIFICATE=/etc/letsencrypt/live/mad.emro.info/fullchain.pem"
+      - "SSL_CERTIFICATE_KEY=/etc/letsencrypt/live/mad.emro.info/privkey.pem"
