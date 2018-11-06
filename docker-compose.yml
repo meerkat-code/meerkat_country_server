@@ -17,7 +17,7 @@ services:
       - DB_HOSTNAME=db
       - PGPASSWORD=password
       - ODK_INSTANCE_ID=meerkat_odk
-      - DB_LIFETIME=100000 # ms
+      - DB_LIFETIME=1000000 # ms
       - CATALINA_OPTS=-Xms3g -Xmx6g -XX:MaxPermSize=512M
     restart: always
 
