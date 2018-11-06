@@ -13,7 +13,7 @@ if [ ! -f /finished-setup ]; then
   mkdir -p /odksettingstmp
   pushd /odktmp
   unzip /ODKAggregate.war WEB-INF/lib/ODKAggregate-settings.jar > /dev/null 2>&1
-  unzip /odktmp/WEB-INF/lib/ODKAggregate-settings.jar security.properties jdbc.properties > /dev/null 2>&1
+  unzip /odktmp/WEB-INF/lib/ODKAggregate-settings.jar security.properties jdbc.properties odk-settings.xml > /dev/null 2>&1
 
   echo "---- Environment Variables ----"
   echo "ODK_PORT=$ODK_PORT"
@@ -29,6 +29,7 @@ if [ ! -f /finished-setup ]; then
   echo "DB_SCHEMA=$DB_SCHEMA"
   echo "DB_USER=$DB_USER"
   echo "CATALINA_HOME=$CATALINA_HOME"
+  echo "DB_LIFETIME=$DB_LIFETIME"
 
   echo "---- Modifying ODK Aggregate security.properties ----"
   echo "Updating security.server.port"
@@ -56,11 +57,16 @@ if [ ! -f /finished-setup ]; then
   sed -i -E "s|^(jdbc.username=).*|\1$DB_USER|gm" jdbc.properties
   sed -i -E "s|^(jdbc.password=).*|\1$DB_PASSWORD|gm" jdbc.properties
 
+  echo "---- Modifying ODK Aggregate Odk-settings ----"
+  sed -i -E "s|590000|$DB_LIFETIME|gm" odk-settings.xml
+
+  cat odk-settings.xml
+  
   echo "---- Modifying Tomcat server.xml.template ----"
   envsubst < /usr/local/tomcat/conf/server.xml.template > /usr/local/tomcat/conf/server.xml
 
   echo "---- Rebuilding ODKAggregate-settings.jar ----"
-  zip -g WEB-INF/lib/ODKAggregate-settings.jar jdbc.properties security.properties > /dev/null 2>&1
+  zip -g WEB-INF/lib/ODKAggregate-settings.jar jdbc.properties security.properties odk-settings.xml > /dev/null 2>&1
   echo "---- Rebuilding ODKAggregate.war ----"
   zip -g /ODKAggregate.war WEB-INF/lib/ODKAggregate-settings.jar > /dev/null 2>&1
   popd
