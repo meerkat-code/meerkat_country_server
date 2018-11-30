@@ -26,10 +26,10 @@ services:
   drill:
     environment:
       - "COUNTRY_NAME=mad"
-      - "SQS_QUEUE_URL=https://sqs.eu-west-1.amazonaws.com/458315597956/nest-queue-mad"
+      - "SQS_QUEUE_URL=https://sqs.eu-west-1.amazonaws.com/354738136883/nest-queue-mad"
   nginx:
     volumes:
       - "/etc/letsencrypt/:/etc/letsencrypt"
     environment:
-      - "SSL_CERTIFICATE=/etc/letsencrypt/live/mad.emro.info/fullchain.pem"
-      - "SSL_CERTIFICATE_KEY=/etc/letsencrypt/live/mad.emro.info/privkey.pem"
+      - "SSL_CERTIFICATE=/etc/letsencrypt/live/nest.seie-madagascar.org/fullchain.pem"
+      - "SSL_CERTIFICATE_KEY=/etc/letsencrypt/live/nest.seie-madagascar.org/privkey.pem"
