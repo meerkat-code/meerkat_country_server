@@ -11,8 +11,7 @@ services:
       - "DB_HOSTNAME=${DB_HOSTNAME}"
       - "PGPASSWORD=${PGPASSWORD}"
       - "ODK_INSTANCE_ID=${ODK_INSTANCE_ID}"
-      - "CATALINA_OPTS=-Xms2g -Xmx3072M -XX:MaxPermSize=512M"
-
+      - "CATALINA_OPTS=-Xms2g -Xmx6g -XX:MaxPermSize=512M"
 
   nest:
     volumes:
@@ -31,5 +30,5 @@ services:
     volumes:
       - "/etc/letsencrypt/:/etc/letsencrypt"
     environment:
-      - "SSL_CERTIFICATE=/etc/letsencrypt/live/nest.seie-madagascar.org/fullchain.pem"
-      - "SSL_CERTIFICATE_KEY=/etc/letsencrypt/live/nest.seie-madagascar.org/privkey.pem"
+      - "SSL_CERTIFICATE=/etc/letsencrypt/live/mad.emro.info/fullchain.pem"
+      - "SSL_CERTIFICATE_KEY=/etc/letsencrypt/live/mad.emro.info/privkey.pem"
