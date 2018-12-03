@@ -20,7 +20,6 @@ services:
       - DB_LIFETIME=100000 # ms
       - CATALINA_OPTS=-Xms2g -Xmx3584M -XX:MaxPermSize=512M
     restart: always
-    mem_limit: 5g
 
 
   nest:
