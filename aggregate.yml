@@ -7,8 +7,6 @@ services:
     environment:
       - ODK_HOSTNAME
       - ODK_ADMIN_USERNAME=ops
-      - ODK_PORT=80
-      - ODK_PORT_SECURE=443
       - DB_USER
       - DB_DATABASE
       - DB_SCHEMA
@@ -16,7 +14,6 @@ services:
       - DB_HOSTNAME
       - PGPASSWORD
       - ODK_INSTANCE_ID
-      - DB_LIFETIME=100000
     restart: always
   nginx:
     build: nginx
