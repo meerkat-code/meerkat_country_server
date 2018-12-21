@@ -15,6 +15,7 @@ services:
       - PGPASSWORD
       - ODK_INSTANCE_ID
       - DB_LIFETIME=100000
+      - ODK_AUTH_REALM
     restart: always
   nginx:
     build: nginx
