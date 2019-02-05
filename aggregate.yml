@@ -16,6 +16,7 @@ services:
       - DB_HOSTNAME
       - PGPASSWORD
       - ODK_INSTANCE_ID
+      - DB_LIFETIME=100000 # ms
     restart: always
   nginx:
     build: nginx
@@ -28,7 +29,8 @@ services:
     depends_on:
       - odk
     volumes:
-      - "/etc/letsencrypt/:/etc/letsencrypt"
+      - "./config:/etc/nginx/config"
+      - "/etc/letsencrypt:/etc/letsencrypt"
 
     hostname: nginx
     command: /bin/run.sh
