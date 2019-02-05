@@ -6,12 +6,12 @@ services:
     tty: true
     environment:
       - ODK_HOSTNAME
-      - ODK_ADMIN_USERNAME=ops
-      - ODK_PORT=80
-      - ODK_PORT_SECURE=443
-      - DB_USER=odk_user
-      - DB_DATABASE=odk_db
-      - DB_SCHEMA=odk_db
+      - ODK_ADMIN_USERNAME
+      - ODK_PORT
+      - ODK_PORT_SECURE
+      - DB_USER
+      - DB_DATABASE
+      - DB_SCHEMA
       - DB_PASSWORD
       - DB_HOSTNAME
       - PGPASSWORD
