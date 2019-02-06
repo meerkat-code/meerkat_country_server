@@ -5,10 +5,6 @@ services:
     build: odk
     container_name: odk
     tty: true
-    depends_on:
-      - db
-    links:
-      - db
     environment:
       - ODK_HOSTNAME=localhost
       - ODK_ADMIN_USERNAME=test
@@ -22,22 +18,10 @@ services:
       - PGPASSWORD=password
       - ODK_INSTANCE_ID=meerkat_odk
       - DB_LIFETIME=100000 # ms
-      - CATALINA_OPTS=-Xms3g -Xmx6g -XX:MaxPermSize=512M
+      - CATALINA_OPTS=-Xms2g -Xmx3584M -XX:MaxPermSize=512M
     restart: always
-  db:
-    build:
-      context: .
-      dockerfile: db/Dockerfile
-    hostname:
-      db
-    volumes:
-      - database_volume:/var/lib/postgresql/
-      - ./db/postgresql.conf:/etc/postgresql.conf
-      - ./db/init_odk_database.sql:/docker-entrypoint-initdb.d/init_odk_database.sql
-    environment:
-      - POSTGRES_PASSWORD=password
-    command: postgres -c config_file=/etc/postgresql.conf
-    restart: always
+
+
   nest:
     build: nest
     volumes:
@@ -48,7 +32,7 @@ services:
       - "MEERKAT_NEST_DB_URL=postgresql+psycopg2://postgres:password@db/meerkat_nest_db"
     hostname: nest
     restart: always
-    
+
   drill:
     build: drill
     volumes:
