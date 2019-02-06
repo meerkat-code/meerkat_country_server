@@ -49,7 +49,7 @@ services:
       - SSL_CERTIFICATE
       - SSL_CERTIFICATE_KEY
     volumes:
-      - "./config:/etc/nginx/config"
+      - "./nginx/config:/etc/nginx"
       - "/etc/letsencrypt:/etc/letsencrypt"
     ports:
       - 80:80

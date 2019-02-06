@@ -19,3 +19,5 @@ services:
       - POSTGRES_PASSWORD=password
     command: postgres -c config_file=/etc/postgresql.conf
     restart: always
+volumes:
+  database_volume:
