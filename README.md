@@ -18,8 +18,17 @@ git clone git@github.com:meerkat-code/meerkat_nest.git
 git clone git@github.com:meerkat-code/meerkat_${COUNTRY}.git
 ```
 
+### Running country server locally
+To run simple nest stack locally for testing/development you can do by:
+```
+docker-compose -f docker-compose.yml -f postgres.yml up -d
+```
+You can access the odk at: https://localhost (you need to accept untrusted self-signed development ssl cert there).
+
+
 ### Configuring ODK Aggregate
 ODK Aggregate documentation can be found [here](http://docs.opendatakit.org/aggregate-guide/).
+Those setting can be changed by updating docker-compose yml config files or `.env` file.
 
 #### Configuring user accounts in ODK Aggregate
 Use the ODK Aggregate UI to change admin credentials from `test:aggregate` and set up anonymous data sending.

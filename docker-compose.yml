@@ -1,43 +1,26 @@
-
 version: '2'
 services:
   odk:
     build: odk
     container_name: odk
     tty: true
-    depends_on:
-      - db
-    links:
-      - db
     environment:
-      - ODK_HOSTNAME=localhost
-      - ODK_ADMIN_USERNAME=test
-      - ODK_PORT=80
-      - ODK_PORT_SECURE=443
-      - DB_USER=odk_user
-      - DB_DATABASE=odk_db
-      - DB_SCHEMA=odk_db
-      - DB_PASSWORD=password
-      - DB_HOSTNAME=db
-      - PGPASSWORD=password
-      - ODK_INSTANCE_ID=meerkat_odk
+      - ODK_HOSTNAME
+      - ODK_PORT
+      - ODK_PORT_SECURE
+      - ODK_ADMIN_USERNAME
+      - DB_USER
+      - DB_DATABASE
+      - DB_SCHEMA
+      - DB_PASSWORD
+      - DB_HOSTNAME
+      - PGPASSWORD
+      - ODK_INSTANCE_ID
       - DB_LIFETIME=100000 # ms
-      - CATALINA_OPTS=-Xms3g -Xmx6g -XX:MaxPermSize=512M
+      - ODK_AUTH_REALM
+      - CATALINA_OPTS=-Xms2g -Xmx3584M -XX:MaxPermSize=512M
     restart: always
-  db:
-    build:
-      context: .
-      dockerfile: db/Dockerfile
-    hostname:
-      db
-    volumes:
-      - database_volume:/var/lib/postgresql/
-      - ./db/postgresql.conf:/etc/postgresql.conf
-      - ./db/init_odk_database.sql:/docker-entrypoint-initdb.d/init_odk_database.sql
-    environment:
-      - POSTGRES_PASSWORD=password
-    command: postgres -c config_file=/etc/postgresql.conf
-    restart: always
+
   nest:
     build: nest
     volumes:
@@ -48,7 +31,7 @@ services:
       - "MEERKAT_NEST_DB_URL=postgresql+psycopg2://postgres:password@db/meerkat_nest_db"
     hostname: nest
     restart: always
-    
+
   drill:
     build: drill
     volumes:
@@ -63,16 +46,17 @@ services:
   nginx:
     build: nginx
     environment:
-      - "SSL_CERTIFICATE=/etc/nginx/self-signed-nginx.crt"
-      - "SSL_CERTIFICATE_KEY=/etc/nginx/self-signed-nginx.key"
+      - SSL_CERTIFICATE
+      - SSL_CERTIFICATE_KEY
+    volumes:
+      - "./nginx/config:/etc/nginx"
+      - "/etc/letsencrypt:/etc/letsencrypt"
     ports:
       - 80:80
       - 443:443
     depends_on:
       - odk
       - nest
-    hostname: nest_nginx
+    hostname: nginx
     command: /bin/run.sh
     restart: always
-volumes:
-  database_volume:

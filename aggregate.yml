@@ -6,9 +6,9 @@ services:
     tty: true
     environment:
       - ODK_HOSTNAME
-      - ODK_ADMIN_USERNAME
       - ODK_PORT
       - ODK_PORT_SECURE
+      - ODK_ADMIN_USERNAME
       - DB_USER
       - DB_DATABASE
       - DB_SCHEMA
@@ -17,6 +17,7 @@ services:
       - PGPASSWORD
       - ODK_INSTANCE_ID
       - DB_LIFETIME=100000 # ms
+      - ODK_AUTH_REALM
     restart: always
   nginx:
     build: nginx
