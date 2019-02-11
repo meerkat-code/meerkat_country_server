@@ -18,7 +18,8 @@ services:
       - ODK_INSTANCE_ID
       - DB_LIFETIME=100000 # ms
       - ODK_AUTH_REALM
-      - CATALINA_OPTS=-Xms2g -Xmx3584M -XX:MaxPermSize=512M
+      - CATALINA_OPTS=-Xms2g -Xmx6g -XX:MaxPermSize=512M
+
     restart: always
 
   nest:
