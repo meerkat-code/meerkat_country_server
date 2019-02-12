@@ -35,6 +35,8 @@ services:
 
   drill:
     build: drill
+    environment:
+      - LOG_LEVEL_NAME
     volumes:
       - "../meerkat_drill/:/var/www/meerkat_drill"
       - "~/.aws/:/root/.aws"
