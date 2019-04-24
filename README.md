@@ -172,7 +172,8 @@ docker exec -it db /manual_setup.sh
 ### Using bash helper scripts
 1. For convinence create the following symlink
     ```
-    ln -s bash_utils/country_server_console_wrapper.sh /usr/local/bin/country_server_console_wrapper
+    # ln -s bash_utils/country_server_console_wrapper.sh /usr/local/bin/country_server_console_wrapper
+    # chmod a+x /usr/local/bin/country_server_console_wrapper
     ```
 1. The following args should be passed as env variables
     ```
@@ -182,14 +183,17 @@ docker exec -it db /manual_setup.sh
      [optional] SERVICE - name of docker service e.g. odk, nest, nginx
     ```
 #### Example usage in crontab:
-```
-@reboot USERNAME=ec2-user COUNTRY_NAME=car ACTION='up -d' /usr/local/bin/country_server_console_wrapper  >> /var/log/country_startup.log 2>&1
-```
+1. Create directory `/home/ec2-user/cron_jobs/`
+1. 
+    ```
+    @reboot USERNAME=ec2-user COUNTRY_NAME=car ACTION='up -d' /usr/local/bin/country_server_console_wrapper  >> /home/ec2-user/cron_jobs/country_server_init.log 2>&1
+    ```
 #### Helper script for ssl cert reneval
-1. Add certbot-auto in `/usr/local/sbin`
+1. Create directory `/home/ec2-user/cron_jobs/`
+1. Install certbot-auto and add it in `/usr/local/sbin`
 1. Add ssl_renval helper script to **root** crontab 
     ```
-    2 30 * * *  USERNAME=ec2-user COUNTRY_NAME=car /home/ec2-user/meerkat_country_server/bash_utils/ssl_reneval.sh >> /var/log/ssl_reneval.log 2>&1
+    2 30 * * *  USERNAME=ec2-user COUNTRY_NAME=car /home/ec2-user/meerkat_country_server/bash_utils/ssl_reneval.sh >> /home/ec2-user/cron_jobs/ssl_reneval.log 2>&1
     ```
 ### Logs
 Logs for continous WAL backup can be seen id db container logs.
