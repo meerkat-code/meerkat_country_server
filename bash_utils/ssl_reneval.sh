@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -x
 ### Script for updating ssl certs for country repo nginx
 # TO BE RUN BY root
 #
@@ -8,7 +7,9 @@ set -x
 # COUNTRY_NAME - name of deployed country e.g. car or demo
 #
 echo "$(date) ------- Running SSL reneval."
+set -x
 ACTION=stop SERVICE=nginx country_server_console_wrapper
 certbot-auto renew
 ACTION=start SERVICE=nginx country_server_console_wrapper
+set +x
 echo "$(date) ------- SSL reneval finished."
