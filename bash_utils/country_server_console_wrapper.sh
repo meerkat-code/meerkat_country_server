@@ -10,4 +10,4 @@
 # @reboot USERNAME=ec2-user COUNTRY_NAME=car ACTION='up -d' country_server_console_wrapper.sh  >> /var/log/country_startup.log 2>&1
 
 
-/usr/local/bin/docker-compose -f /home/${USERNAME}/meerkat_country_server/docker-compose.yml -f /home/${USERNAME}/meerkat_${COUNTRY_NAME}/nest/${COUNTRY_NAME} ${SERVICE} ${ACTION}
+/usr/local/bin/docker-compose -f /home/${USERNAME}/meerkat_country_server/docker-compose.yml -f /home/${USERNAME}/meerkat_${COUNTRY_NAME}/nest/${COUNTRY_NAME} ${ACTION} ${SERVICE}
