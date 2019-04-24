@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -x
 ### Script for updating ssl certs for country repo nginx
 # TO BE RUN BY root
 #
