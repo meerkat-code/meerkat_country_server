@@ -4,10 +4,6 @@ server {
     charset     utf-8;
     client_max_body_size 500M;
 
-    charset     utf-8;
-    large_client_header_buffers 4 32k;
-    client_max_body_size 500M;
-
     ssl on;
     ssl_certificate     ${SSL_CERTIFICATE};
     ssl_certificate_key ${SSL_CERTIFICATE_KEY};
