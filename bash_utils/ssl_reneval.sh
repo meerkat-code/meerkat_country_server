@@ -8,8 +8,8 @@
 #
 echo "$(date) ------- Running SSL reneval."
 set -x
-ACTION=stop SERVICE=nginx country_server_console_wrapper
-certbot-auto renew
-ACTION=start SERVICE=nginx country_server_console_wrapper
+ACTION=stop SERVICE=nginx /usr/local/bin/country_server_console_wrapper
+/usr/local/bin/certbot-auto renew
+ACTION=start SERVICE=nginx /usr/local/bin/country_server_console_wrapper
 set +x
 echo "$(date) ------- SSL reneval finished."
