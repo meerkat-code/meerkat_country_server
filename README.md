@@ -15,6 +15,7 @@ Set up environment variable `COUNTRY` for the country deployment
 Clone the source code for Meerkat nest and the country configuration repository in the same root folder as this repository
 ```bash
 git clone git@github.com:meerkat-code/meerkat_nest.git
+git clone git@github.com:meerkat-code/meerkat_drill.git
 git clone git@github.com:meerkat-code/meerkat_${COUNTRY}.git
 ```
 
@@ -44,7 +45,7 @@ Using Form Management tab in ODK Aggregate, set up submission publishing with th
 * Include Media as: Links(URLs) to Media
 
 ### Configuring Nginx and SSL certificates
-If necessary, install and use [Certbot](https://certbot.eff.org/) to create SSL certificates for your domain. Make sure the certificates are mapped into Nginx Docker container correctly by setting the environment variables in country-specific docker-compose configuration files in the country configurations repo.
+If necessary, install and use [Certbot Auto](https://certbot.eff.org/docs/install.html#certbot-auto) to create SSL certificates for your domain. Make sure the certificates are mapped into Nginx Docker container correctly by setting the environment variables in country-specific docker-compose configuration files in the country configurations repo.
 
 ### Configuring Nest
 #### SQS queue
@@ -53,6 +54,61 @@ A standard SQS queue should be created in AWS with default properties.
 Meerkat Nest uses salted hashing to anonymise the data. To make this secure, the hashed fields must be salted before hashing. Nest does this automatically but
 you can use a custom salt file by defining the SALT environmental variable in the Nest container.
 
+
+### Docker setup
+
+#### Installing Docker and Docker-Compose
+Instructions for installing Docker can be found [here](https://docs.docker.com/engine/installation/) and instructions for Docker-Compose [here](https://docs.docker.com/compose/install/).
+
+#### Building Docker images
+Build the required Docker images by running
+`docker-compose build` in this folder.
+
+## Running the services
+
+### Making sure host system Nginx isn't running
+Run `sudo service stop nginx` in the host system to stop it in case it's running.
+
+### Starting docker-compose
+#### Demo country server example
+To start services you can run:
+```bash
+docker-compose -f docker-compose.yml -f postgres.yml logs -f nginx
+```
+`postgres.yml` is used to use dockerised local database
+
+
+[Optional] Manual configuration for initial backup is required with:
+```bash
+docker exec -it db /manual_setup.sh
+```
+### Using bash helper scripts
+1. For convinence create the following symlink
+    ```
+    # ln -s $(pwd)/bash_utils/country_server_console_wrapper.sh /usr/local/bin/country_server_console_wrapper
+    # chmod a+x /usr/local/bin/country_server_console_wrapper
+    ```
+1. The following args should be passed as env variables
+    ```
+     USERNAME - name of the user in whom home dir meerkat_country_server is checked out
+     COUNTRY_NAME - name of deployed country e.g. car or demo
+     ACTION - docker-compose action you'd like to use. e.g. 'up -d', 'stop', 'start', 'rm -v'
+     [optional] SERVICE - name of docker service e.g. odk, nest, nginx
+    ```
+#### Example usage in crontab:
+1. Create directory `/home/ec2-user/cron_jobs/`
+1. 
+    ```
+    @reboot USERNAME=ec2-user COUNTRY_NAME=car ACTION='up -d' /usr/local/bin/country_server_console_wrapper  >> /home/ec2-user/cron_jobs/country_server_init.log 2>&1
+    ```
+#### Helper script for ssl cert reneval
+1. Create directory `/home/ec2-user/cron_jobs/`
+1. Install certbot-auto and add it in `/usr/local/sbin`
+1. Add ssl_renval helper script to **root** crontab 
+    ```
+    2 30 * * *  USERNAME=ec2-user COUNTRY_NAME=car /home/ec2-user/meerkat_country_server/bash_utils/ssl_reneval.sh >> /home/ec2-user/cron_jobs/ssl_reneval.log 2>&1
+    ```
+   
 ### Configuring backups
 
 #### Setting up S3
@@ -146,55 +202,6 @@ More information in wal-e doc: https://github.com/wal-e/wal-e
 The `gpg_pub.key` is the public gpg key to encrypt data before they are send to S3.
 `WALE_GPG_KEY_ID` should point to this key id.
 
-### Docker setup
-
-#### Installing Docker and Docker-Compose
-Instructions for installing Docker can be found [here](https://docs.docker.com/engine/installation/) and instructions for Docker-Compose [here](https://docs.docker.com/compose/install/).
-
-#### Building Docker images
-Build the required Docker images by running
-`docker-compose build` in this folder.
-
-## Running the services
-
-### Making sure host system Nginx isn't running
-Run `sudo service stop nginx` in the host system to stop it in case it's running.
-
-### Starting docker-compose
-To start services you can run:
-```bash
-docker-compose -f docker-compose.yml -f demo.yml up -d
-```
-Manual configuration for initial backup is required with:
-```bash
-docker exec -it db /manual_setup.sh
-```
-### Using bash helper scripts
-1. For convinence create the following symlink
-    ```
-    # ln -s bash_utils/country_server_console_wrapper.sh /usr/local/bin/country_server_console_wrapper
-    # chmod a+x /usr/local/bin/country_server_console_wrapper
-    ```
-1. The following args should be passed as env variables
-    ```
-     USERNAME - name of the user in whom home dir meerkat_country_server is checked out
-     COUNTRY_NAME - name of deployed country e.g. car or demo
-     ACTION - docker-compose action you'd like to use. e.g. 'up -d', 'stop', 'start', 'rm -v'
-     [optional] SERVICE - name of docker service e.g. odk, nest, nginx
-    ```
-#### Example usage in crontab:
-1. Create directory `/home/ec2-user/cron_jobs/`
-1. 
-    ```
-    @reboot USERNAME=ec2-user COUNTRY_NAME=car ACTION='up -d' /usr/local/bin/country_server_console_wrapper  >> /home/ec2-user/cron_jobs/country_server_init.log 2>&1
-    ```
-#### Helper script for ssl cert reneval
-1. Create directory `/home/ec2-user/cron_jobs/`
-1. Install certbot-auto and add it in `/usr/local/sbin`
-1. Add ssl_renval helper script to **root** crontab 
-    ```
-    2 30 * * *  USERNAME=ec2-user COUNTRY_NAME=car /home/ec2-user/meerkat_country_server/bash_utils/ssl_reneval.sh >> /home/ec2-user/cron_jobs/ssl_reneval.log 2>&1
-    ```
 ### Logs
 Logs for continous WAL backup can be seen id db container logs.
 Weekly base backups will be logged inside the container under `/cron.log`
