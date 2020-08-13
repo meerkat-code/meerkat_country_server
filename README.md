@@ -45,7 +45,7 @@ Using Form Management tab in ODK Aggregate, set up submission publishing with th
 * Include Media as: Links(URLs) to Media
 
 ### Configuring Nginx and SSL certificates
-If necessary, install and use [Certbot Auto](https://certbot.eff.org/docs/install.html#certbot-auto) to create SSL certificates for your domain. Make sure the certificates are mapped into Nginx Docker container correctly by setting the environment variables in country-specific docker-compose configuration files in the country configurations repo.
+If necessary, install and use [Certbot](https://certbot.eff.org/docs/install.html) to create SSL certificates for your domain. Make sure the certificates are mapped into Nginx Docker container correctly by setting the environment variables in country-specific docker-compose configuration files in the country configurations repo.
 
 ### Configuring Nest
 #### SQS queue
