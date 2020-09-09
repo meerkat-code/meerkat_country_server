@@ -1,0 +1,51 @@
+---
+- hosts: all
+  remote_user: ubuntu
+
+  tasks:
+    - name: Set authorized keys taken from url
+      authorized_key:
+        user: ubuntu
+        state: present
+        key: https://github.com/jsoppela.keys
+
+    - name: Ensure RSA keypair exists
+      openssh_keypair:
+        path: /home/ubuntu/.ssh/id_rsa
+
+    - name: Sync Meerkat Nest repo
+      git:
+        repo: https://github.com/fjelltopp/meerkat_nest.git
+        dest: /home/ubuntu/meerkat_nest
+        accept_hostkey: yes
+
+    - name: Sync Meerkat Drill repo
+      git:
+        repo: https://github.com/fjelltopp/meerkat_drill.git
+        dest: /home/ubuntu/meerkat_drill
+        accept_hostkey: yes
+
+    - name: Add Docker GPG apt Key
+      become: yes
+      apt_key:
+        id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      become: yes
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu bionic stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      become: yes
+      apt: update_cache=yes name=docker-ce state=latest
+
+    - name: Update apt and install docker-ce-cli
+      become: yes
+      apt: update_cache=yes name=docker-ce-cli state=latest
+
+    - name: Update apt and install containerd.io
+      become: yes
+      apt: update_cache=yes name=containerd.io state=latest

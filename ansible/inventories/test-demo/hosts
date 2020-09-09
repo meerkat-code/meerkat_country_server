@@ -1,5 +1,4 @@
 all:
   hosts:
-    ansibletest.fjelltopp.org:
-      ansible_user: ubuntu
+    ansibletest.fjelltopp.org
  
